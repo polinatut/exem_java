@@ -40,7 +40,6 @@ public class Phone {
         );
     }
 
-    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
