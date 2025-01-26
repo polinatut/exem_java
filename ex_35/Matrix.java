@@ -1,5 +1,3 @@
-package org.example;
-
 public class Matrix {
     private final double[][] data; // Двумерный массив для хранения элементов матрицы
     private final int rows; // Число строк
@@ -7,6 +5,9 @@ public class Matrix {
 
     // Конструктор для создания матрицы заданного размера
     public Matrix(int rows, int cols) {
+        if (rows <= 0 || cols <= 0) {
+            throw new IllegalArgumentException("Размеры матрицы должны быть положительными");
+        }
         this.rows = rows;
         this.cols = cols;
         this.data = new double[rows][cols];
@@ -14,10 +15,16 @@ public class Matrix {
 
     // Конструктор для создания матрицы из двумерного массива
     public Matrix(double[][] data) {
+        if (data == null || data.length == 0 || data[0].length == 0) {
+            throw new IllegalArgumentException("Двумерный массив не должен быть пустым");
+        }
         this.rows = data.length;
         this.cols = data[0].length;
         this.data = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
+            if (data[i].length != cols) {
+                throw new IllegalArgumentException("Все строки массива должны иметь одинаковую длину");
+            }
             System.arraycopy(data[i], 0, this.data[i], 0, cols);
         }
     }
@@ -34,9 +41,7 @@ public class Matrix {
 
     // Метод для сложения двух матриц
     public Matrix add(Matrix other) {
-        if (this.rows != other.rows || this.cols != other.cols) {
-            throw new IllegalArgumentException("Размеры матриц должны совпадать");
-        }
+        validateSameSize(other);
         double[][] result = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -48,9 +53,7 @@ public class Matrix {
 
     // Метод для вычитания двух матриц
     public Matrix subtract(Matrix other) {
-        if (this.rows != other.rows || this.cols != other.cols) {
-            throw new IllegalArgumentException("Размеры матриц должны совпадать");
-        }
+        validateSameSize(other);
         double[][] result = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -103,7 +106,10 @@ public class Matrix {
         if (rows != cols) {
             throw new IllegalArgumentException("Матрица должна быть квадратной");
         }
-        Matrix result = identityMatrix(rows); // Единичная матрица
+        if (exponent < 0) {
+            throw new IllegalArgumentException("Показатель степени должен быть неотрицательным");
+        }
+        Matrix result = identityMatrix(rows);
         Matrix base = this;
         while (exponent > 0) {
             if (exponent % 2 == 1) {
@@ -124,6 +130,13 @@ public class Matrix {
         return new Matrix(identity);
     }
 
+    // Метод для проверки одинаковых размеров матриц
+    private void validateSameSize(Matrix other) {
+        if (this.rows != other.rows || this.cols != other.cols) {
+            throw new IllegalArgumentException("Размеры матриц должны совпадать");
+        }
+    }
+
     // Метод для вывода матрицы
     public void print() {
         for (double[] row : data) {
@@ -132,5 +145,42 @@ public class Matrix {
             }
             System.out.println();
         }
+    }
+
+    public static void main(String[] args) {
+        double[][] data1 = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        double[][] data2 = {
+                {9, 8, 7},
+                {6, 5, 4},
+                {3, 2, 1}
+        };
+
+        Matrix matrix1 = new Matrix(data1);
+        Matrix matrix2 = new Matrix(data2);
+
+        System.out.println("Матрица 1:");
+        matrix1.print();
+
+        System.out.println("Матрица 2:");
+        matrix2.print();
+
+        System.out.println("Сложение:");
+        matrix1.add(matrix2).print();
+
+        System.out.println("Умножение на число:");
+        matrix1.multiply(2).print();
+
+        System.out.println("Транспонированная матрица:");
+        matrix1.transpose().print();
+
+        System.out.println("Произведение матриц:");
+        matrix1.multiply(matrix2).print();
+
+        System.out.println("Матрица 1 в степени 2:");
+        matrix1.power(2).print();
     }
 }
