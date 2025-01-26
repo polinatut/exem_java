@@ -20,18 +20,16 @@ public class MatrixSum {
 
         int[][] matrix = new int[rows][cols];
         int borderSum = 0;
-        int attempts = 0; // Счетчик попыток
-        final int MAX_ATTEMPTS = 10000000; // Максимальное количество попыток
+        int attempts = 0; 
+        final int MAX_ATTEMPTS = 10000000; 
 
         while (borderSum != 666 && attempts < MAX_ATTEMPTS) {
-            // Заполнение матрицы случайными числами
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     matrix[i][j] = random.nextInt(100) + 1;
                 }
             }
 
-            // Подсчет суммы граничных элементов
             borderSum = calculateBorderSum(matrix, rows, cols);
             attempts++;
         }
@@ -44,26 +42,22 @@ public class MatrixSum {
         }
     }
 
-    // Метод для подсчета суммы граничных элементов
     private static int calculateBorderSum(int[][] matrix, int rows, int cols) {
         int sum = 0;
 
-        // Верхняя и нижняя границы
         for (int j = 0; j < cols; j++) {
-            sum += matrix[0][j]; // Верхняя граница
-            sum += matrix[rows - 1][j]; // Нижняя граница
+            sum += matrix[0][j]; 
+            sum += matrix[rows - 1][j]; 
         }
 
-        // Левая и правая границы (без учета углов)
         for (int i = 1; i < rows - 1; i++) {
-            sum += matrix[i][0]; // Левая граница
-            sum += matrix[i][cols - 1]; // Правая граница
+            sum += matrix[i][0]; 
+            sum += matrix[i][cols - 1]; 
         }
 
         return sum;
     }
 
-    // Метод для вывода матрицы
     private static void printMatrix(int[][] matrix) {
         for (int[] row : matrix) {
             for (int value : row) {
