@@ -1,4 +1,3 @@
-package org.example;
 
 import java.util.Scanner;
 class SmartForm extends Form {
