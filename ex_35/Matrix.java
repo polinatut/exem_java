@@ -1,9 +1,8 @@
 public class Matrix {
-    private final double[][] data; // Двумерный массив для хранения элементов матрицы
-    private final int rows; // Число строк
-    private final int cols; // Число столбцов
+    private final double[][] data; 
+    private final int rows; 
+    private final int cols;
 
-    // Конструктор для создания матрицы заданного размера
     public Matrix(int rows, int cols) {
         if (rows <= 0 || cols <= 0) {
             throw new IllegalArgumentException("Размеры матрицы должны быть положительными");
@@ -13,7 +12,6 @@ public class Matrix {
         this.data = new double[rows][cols];
     }
 
-    // Конструктор для создания матрицы из двумерного массива
     public Matrix(double[][] data) {
         if (data == null || data.length == 0 || data[0].length == 0) {
             throw new IllegalArgumentException("Двумерный массив не должен быть пустым");
@@ -29,17 +27,14 @@ public class Matrix {
         }
     }
 
-    // Метод для получения числа строк
     public int getRows() {
         return rows;
     }
 
-    // Метод для получения числа столбцов
     public int getCols() {
         return cols;
     }
 
-    // Метод для сложения двух матриц
     public Matrix add(Matrix other) {
         validateSameSize(other);
         double[][] result = new double[rows][cols];
@@ -51,7 +46,6 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    // Метод для вычитания двух матриц
     public Matrix subtract(Matrix other) {
         validateSameSize(other);
         double[][] result = new double[rows][cols];
@@ -63,7 +57,6 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    // Метод для умножения матрицы на число
     public Matrix multiply(double scalar) {
         double[][] result = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
@@ -74,7 +67,6 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    // Метод для умножения двух матриц
     public Matrix multiply(Matrix other) {
         if (this.cols != other.rows) {
             throw new IllegalArgumentException("Число столбцов первой матрицы должно быть равно числу строк второй матрицы");
@@ -90,7 +82,6 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    // Метод для транспонирования матрицы
     public Matrix transpose() {
         double[][] result = new double[cols][rows];
         for (int i = 0; i < rows; i++) {
@@ -101,7 +92,6 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    // Метод для возведения матрицы в степень
     public Matrix power(int exponent) {
         if (rows != cols) {
             throw new IllegalArgumentException("Матрица должна быть квадратной");
@@ -121,7 +111,6 @@ public class Matrix {
         return result;
     }
 
-    // Метод для создания единичной матрицы
     private static Matrix identityMatrix(int size) {
         double[][] identity = new double[size][size];
         for (int i = 0; i < size; i++) {
@@ -130,14 +119,12 @@ public class Matrix {
         return new Matrix(identity);
     }
 
-    // Метод для проверки одинаковых размеров матриц
     private void validateSameSize(Matrix other) {
         if (this.rows != other.rows || this.cols != other.cols) {
             throw new IllegalArgumentException("Размеры матриц должны совпадать");
         }
     }
 
-    // Метод для вывода матрицы
     public void print() {
         for (double[] row : data) {
             for (double value : row) {
