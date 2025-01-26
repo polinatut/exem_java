@@ -1,4 +1,3 @@
-package org.example;
 
 // Демонстрация работы классов
 public class Main {
